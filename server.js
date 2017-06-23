@@ -42,6 +42,7 @@ application.get('/signin', (request, response) => {
 application.post('/signin', (request, response) => {
     var name = request.body.name;
     var password = request.body.password;
+    request.session.views = 1;
     var user = users.find(user => { return user.name === name && user.password === password })
 
     if (user) {
@@ -58,7 +59,8 @@ application.get('/dashboard', (request, response) => {
         response.redirect('/signin');
     } else {
         var model = {
-            name: request.session.name
+            name: request.session.name,
+            views: request.session.views++
         }
         response.render('dashboard', model);
     }
